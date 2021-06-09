@@ -6,16 +6,19 @@
   </nav>
   <div class="content">
     <div class="row">
-      <button class="btn col s2 offset-s10">Dodaj zadanie
+      <button class="btn col s2 offset-s10">Add reminder
       </button>
-      <button class="btn col s2 offset-s10">Zakończ
+      <button class="btn col s2 offset-s10">Finish
       </button>
     </div>
 
     <div class="row">
-      <input class="col s8" type="text" placeholder="Dodaj zadanie i datę wykonania"/>
-      <input class="col s2 disabled" type="date"/>
-      <button class="btn-floating">+
+      <input class="col s8" type="text" placeholder="Add reminder and date"
+      (keyup)="0" 
+      #nameInput/>
+      <input class="col s2 disabled" type="date" (change)="0" #dateInput/>
+      <button class="btn-floating" (click)="createTask(nameInput.value, dateInput.value); nameInput.value=''; dateInput.value=''"
+      [disabled]="nameInput.value === '' || dateInput.value === ''">+
       </button>
     </div>
 
@@ -38,10 +41,10 @@
       </li>
     </ul>
 
-    <h1>Dzisiaj brak zadań :-)</h1>
+    <h1>No reminders for today</h1>
 
-    <button class="btn red">
-      Wyczyść
+    <button class="btn red" (click)="clearTasks()" [disabled]="tasks.length === 0">
+      Clear Reminders
     </button>
   </div>
 

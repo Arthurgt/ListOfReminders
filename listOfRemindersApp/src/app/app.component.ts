@@ -9,23 +9,7 @@ import { Task } from './task';
 export class AppComponent {
 
   config: { [key: string]: string | Date } = null;
-  tasks: Task[] = [
-    {
-      name: 'Siłownia',
-      deadline: '2020-01-02',
-      done: false,
-    },
-    {
-      name: 'Nauka',
-      deadline: '2020-01-03',
-      done: false,
-    },
-    {
-      name: 'Granie',
-      deadline: '2020-01-04',
-      done: false,
-    }
-  ];
+  tasks: Task[] = [];
 
   constructor() {
     this.config = {
@@ -33,5 +17,18 @@ export class AppComponent {
       footer: '© Artur Babkiewicz build in Angular',
       date: new Date()
     };
+  }
+
+  clearTasks() {
+    this.tasks = [];
+  }
+
+  createTask(name: string, deadline: string) {
+    const task: Task = {
+      name,
+      deadline,
+      done: false,
+    };
+    this.tasks.push(task);
   }
 }
