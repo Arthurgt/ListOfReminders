@@ -6,42 +6,48 @@
   </nav>
   <div class="content">
     <div class="row">
-      <button class="btn col s2 offset-s10">Add reminder
-      </button>
-      <button class="btn col s2 offset-s10">Finish
+      <ng-container *ngIf="editMode; then editOn; else editOff"></ng-container>
+      <ng-template #editOff>
+        <button class="btn col s2 offset-s10" (click)="switchEditMode()">Add reminder
+        </button>
+      </ng-template>
+      <ng-template #editOn>
+        <button class="btn col s2 offset-s10" (click)="switchEditMode()">Finish
+        </button>
+      </ng-template>
+    </div>
+
+    <div class="row" *ngIf="editMode">
+      <input class="col s8" type="text" placeholder="Add reminder and date" [(ngModel)]="taskName"/>
+      <input class="col s2 disabled" type="date" [(ngModel)]="taskDate"/>
+      <button class="btn-floating" (click)="createTask()"
+      [disabled]="taskName === '' || taskDate === ''">+
       </button>
     </div>
 
-    <div class="row">
-      <input class="col s8" type="text" placeholder="Add reminder and date"
-      (keyup)="0" 
-      #nameInput/>
-      <input class="col s2 disabled" type="date" (change)="0" #dateInput/>
-      <button class="btn-floating" (click)="createTask(nameInput.value, dateInput.value); nameInput.value=''; dateInput.value=''"
-      [disabled]="nameInput.value === '' || dateInput.value === ''">+
-      </button>
-    </div>
-
-    <ul class="collection">
-      <li class="collection-item row" *ngFor="let task of tasks; let i = index">
-          <span class="col s10">
-            {{ i+1 }} - {{ task.name }} - {{ task.deadline | date: 'd.MM EEEE':'':'pl' }}
-          </span>
-        <div class="col s2 right-align">
-          <button class="btn-floating btn-small red mr-5">
-            <i class="material-icons">remove</i>
-          </button>
-          <button class="btn-floating btn-small green">
-            <i class="material-icons">check</i>
-          </button>
-        </div>
-      </li>
-      <li class="collection-item row">
-        <span class="col done">Sprzątnie strychu</span>
-      </li>
+    <ul class="collection" *ngIf="tasks.length > 0; else noTasks">
+      <ng-container *ngFor="let task of tasks; let i = index" [ngSwitch]="task.done">
+        <li class="collection-item row" *ngSwitchCase="false">
+            <span class="col s10">
+              {{ i+1 }} - {{ task.name }} - {{ task.deadline | date: 'd.MM EEEE':'':'pl' }}
+            </span>
+          <div class="col s2 right-align">
+            <button class="btn-floating btn-small red mr-5" (click)="deleteTask(task)">
+              <i class="material-icons">remove</i>
+            </button>
+            <button class="btn-floating btn-small green" (click)="markTaskAsDone(task)">
+              <i class="material-icons">check</i>
+            </button>
+          </div>
+        </li>
+        <li class="collection-item row" *ngSwitchCase="true">
+          <span class="col done">{{ task.name }}</span>
+        </li>
+      </ng-container>
     </ul>
-
-    <h1>No reminders for today</h1>
+    <ng-template #noTasks>
+      <h1>No reminders for today</h1>
+    </ng-template>
 
     <button class="btn red" (click)="clearTasks()" [disabled]="tasks.length === 0">
       Clear Reminders

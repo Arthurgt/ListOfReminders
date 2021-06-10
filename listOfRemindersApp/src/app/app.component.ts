@@ -8,6 +8,9 @@ import { Task } from './task';
 })
 export class AppComponent {
 
+  editMode= false;
+  taskName = 'Daily reminder';
+  taskDate = '';
   config: { [key: string]: string | Date } = null;
   tasks: Task[] = [];
 
@@ -23,12 +26,35 @@ export class AppComponent {
     this.tasks = [];
   }
 
-  createTask(name: string, deadline: string) {
+  createTask() {
     const task: Task = {
-      name,
-      deadline,
+      name: this.taskName,
+      deadline: this.taskDate,
       done: false,
     };
     this.tasks.push(task);
+    this.taskName = '';
+    this.taskDate = '';
+    this.sortTasks();
+  }
+
+  switchEditMode() {
+    this.editMode = !this.editMode;
+  }
+
+  markTaskAsDone(task: Task) {
+    task.done = true;
+    this.sortTasks();
+  }
+
+  deleteTask(task: Task) {
+    this.tasks = this.tasks.filter(e => e !== task)
+    this.sortTasks();
+  }
+
+  private sortTasks() {
+    this.tasks = this.tasks.sort((a: Task, b: Task) =>
+    a.done === b.done ? 0 : a.done ? 1 : -1
+    );
   }
 }
