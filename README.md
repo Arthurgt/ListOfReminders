@@ -1,6 +1,6 @@
 #ListOfRemindersApp
 
-List of reminders application. Simple application created with Angular 9. It allow us to create own list of tasks and deadlines
+List of reminders application. Simple application created using Angular 9. It allow us to create own list of tasks and deadlines
 
 Chrome View:
 
