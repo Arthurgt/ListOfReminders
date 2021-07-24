@@ -5,6 +5,10 @@
   .mt-5 {
     margin-top: 5px;
   }
+
+  .p-20 {
+    padding: 20px;
+  }
   
   .done {
     color: silver;
@@ -17,6 +21,51 @@
   
   .content {
     overflow: auto;
-    height: 500px;
-    max-height: 500px;
+    height: 80Vh;
+  }
+
+  .clear-button, .add-button, .content, .page-footer {
+    text-align: center;
+  }
+
+  .collection-item {
+    text-align: left;
+  }
+
+  @media (max-width: 768px) { 
+    .brand-logo {
+      font-size: 26px;
+    }
+
+    h1 {
+      font-size: 40px;
+    }
+  }
+
+  @media (max-width: 576px) { 
+    .brand-logo {
+      font-size: 22px;
+    }
+
+    h1 {
+      font-size: 34px;
+    }
+  }
+
+  @media (max-width: 410px) { 
+    .brand-logo {
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    input[type="text"], input[type="date"] {
+      font-size: 11px;
+    }
+
+    .task-name {
+      font-size: 11px;
+    }
   }

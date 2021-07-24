@@ -1,38 +1,40 @@
-<div class="container mt-5">
+<div class="container-fluid">
   <nav class="row">
     <div class="nav-wrapper">
       <span class="brand-logo center">{{ config?.title | uppercase }}</span>
     </div>
   </nav>
-  <div class="content">
-    <div class="row">
+</div>
+<div class="container">
+    <div class="add-button">
       <ng-container *ngIf="editMode; then editOn; else editOff"></ng-container>
       <ng-template #editOff>
-        <button class="btn col s2 offset-s10" (click)="switchEditMode()">Add reminder
+        <button class="btn col" (click)="switchEditMode()">Add reminder
         </button>
       </ng-template>
       <ng-template #editOn>
-        <button class="btn col s2 offset-s10" (click)="switchEditMode()">Finish
+        <button class="btn col" (click)="switchEditMode()">Finish
         </button>
       </ng-template>
     </div>
 
-    <div class="row" *ngIf="editMode">
-      <input class="col s8" type="text" placeholder="Add reminder and date" [(ngModel)]="taskName"/>
-      <input class="col s2 disabled" type="date" [(ngModel)]="taskDate"/>
+    <div class="row center" *ngIf="editMode">
+      <input class="col s5" type="text" placeholder="Add reminder" [(ngModel)]="taskName"/>
+      <input class="col s5 disabled" type="date" [(ngModel)]="taskDate"/>
       <button class="btn-floating" (click)="createTask()"
       [disabled]="taskName === '' || taskDate === ''">+
       </button>
     </div>
 
+    <div class="content">
     <ul class="collection" *ngIf="tasks.length > 0; else noTasks">
       <ng-container *ngFor="let task of tasks; let i = index" [ngSwitch]="task.done">
         <li class="collection-item row" *ngSwitchCase="false">
-            <span class="col s10">
+            <span class="col s10 task-name">
               {{ i+1 }} - {{ task.name }} - {{ task.deadline | date: 'd.MM EEEE':'':'pl' }}
             </span>
-          <div class="col s2 right-align">
-            <button class="btn-floating btn-small red mr-5" (click)="deleteTask(task)">
+          <div class="right-align">
+            <button class="btn-floating btn-small red" (click)="deleteTask(task)">
               <i class="material-icons">remove</i>
             </button>
             <button class="btn-floating btn-small green" (click)="markTaskAsDone(task)">
@@ -48,15 +50,17 @@
     <ng-template #noTasks>
       <h1>No reminders for today</h1>
     </ng-template>
-
-    <button class="btn red" (click)="clearTasks()" [disabled]="tasks.length === 0">
-      Clear Reminders
-    </button>
   </div>
 
-  <footer class="page-footer mt-5">
-    <div class="footer-copyright">
-      <div class="container">{{ config?.date | date: 'yyyy' }}{{ config?.footer }}</div>
+    <div class="clear-button">
+      <button class="btn red" (click)="clearTasks()" [disabled]="tasks.length === 0">
+        Clear Reminders
+      </button>
     </div>
-  </footer>
 </div>
+
+  <div class="container-fluid">
+    <footer class="page-footer mt-5 p-20">
+        <div class="container">{{ config?.date | date: 'yyyy' }}{{ config?.footer }}</div>
+    </footer>
+  </div>
